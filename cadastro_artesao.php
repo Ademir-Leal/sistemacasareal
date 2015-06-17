@@ -15,6 +15,7 @@ include "header.php";
       $(document).ready(function () {
         $('#data_nas').datepicker({
             format: "dd/mm/yyyy",
+            autoclose: true,
             language: "pt-BR"
         });
       });
@@ -129,9 +130,6 @@ if(isset($_REQUEST['email'])){
 	
 	$data = converte_data($data);
 	
-	echo $data;
-	
-	return;
 	
    $novo_artesao = new Artesao();
    
@@ -145,7 +143,7 @@ if(isset($_REQUEST['email'])){
    $novo_artesao->estado = $_POST['uf'];	
    $novo_artesao->telefone = $_POST['telefone'];
    $novo_artesao->cep = $_POST['cep'];
-   $novo_artesao->data_nascimento = $_POST['data_nas'];
+   $novo_artesao->data_nascimento = $data;
   
    if($novo_artesao->salvar_novo() == false){
 	   
