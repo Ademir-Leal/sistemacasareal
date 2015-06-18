@@ -124,9 +124,10 @@ class Artesao {
 		$conexao = new conexao();
 		
 		$conexao->update("update artesaos set cpf=$this->cpf, nome='$this->nome', rua='$this->rua', email='$this->email', 
-		            numero=$this->numero, bairro='$this->bairro', cidade='$this->cidade', estado='$this->estado' telefone='$this->telefone', 
+		            numero=$this->numero, bairro='$this->bairro', cidade='$this->cidade', estado='$this->estado', telefone='$this->telefone', 
 		            cep='$this->cep', data_nascimento=date('$this->data_nascimento') where id_artesao=$this->id_artesao");
 		
+		return true;
 		
 	}
 	
@@ -264,14 +265,6 @@ $this->tamanho = $_FILES[$nome_campo]["size"];
 
 //trata a imagem
 
-/*$pont = fopen($this->nome_imagem, "rb"); 
-
-$this->conteudo = fread($pont,filesize($this->nome_imagem));
-
-fclose($pont);
-
-$this->conteudo = addslashes($this->conteudo);*/ 
-
 $this->conteudo = file_get_contents($this->nome_imagem);
 
 
@@ -289,6 +282,37 @@ $this->nome_imagem = $_FILES[$nome_campo]["name"];
 
 }
 
+
+public function trocar_imagem($nome_campo){
+	
+if($nome_campo == Null) return false;
+//recebe metadados da imagem
+$this->nome_imagem = $_FILES[$nome_campo]["tmp_name"];
+$this->tipo = $_FILES[$nome_campo]["type"];
+$this->tamanho = $_FILES[$nome_campo]["size"];
+
+//trata a imagem
+
+$this->conteudo = file_get_contents($this->nome_imagem);
+
+
+$this->conteudo = addslashes($this->conteudo);
+
+
+$this->nome_imagem = $_FILES[$nome_campo]["name"];
+
+
+
+   $conexao = new conexao();
+
+   $conexao->insercao("update imagens_artesao set nome_imagem='$this->nome_imagem', tipo='$this->tipo', tamanho='$this->tamanho', conteudo ='$this->conteudo' where id_artesao=$this->id_artesao");
+
+
+	
+}
+
+
+
 public function getImage(){
 	
    if($this->id_artesao == NULL) return false;
@@ -302,6 +326,10 @@ public function getImage(){
      $resultado = $resultado->fetch(PDO::FETCH_OBJ);
      
      $this->conteudo = $resultado->conteudo;
+     $this->id_image = $resultado->id_image;
+     $this->nome_imagem = $resultado->nome_imagem;
+     $this->tipo = $resultado->tipo;
+     $this->tamanho = $resultado->tamanho;
      return true;
    
    }
@@ -391,9 +419,11 @@ public function mostrar_imagem(){
 
    $conexao = new conexao();
 
-   $resultado = $conexao->consulta("select * from imagens_user where id_user = $this->id_user");
+   $resultado = $conexao->consulta("select * from imagens_user where id_user = $this->id_user",'vetor');
 
-  if($resultado){
+  if($resultado->rowCount() > 0){
+	  
+	  $resultado = $resultado->fetch(PDO::FETCH_OBJ);
 
       echo '<img align="Right" src="data:image/jpeg;base64,'.base64_encode($resultado->conteudo).'" class="img-circle" width="70px" height="70px" alt=""/>';
       

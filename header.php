@@ -98,7 +98,7 @@ $imagem_usuario->id_user = $usuario->id_user;
 		
 	  <div class="container">
 		  
-		  <?php  $imagem_usuario->mostrar_imagem(); ?>
+		  
 		  
 		  
 		  
@@ -112,15 +112,31 @@ $imagem_usuario->id_user = $usuario->id_user;
 			   
 			   <li><a href="artesaos.php"> Artesãos </a></li>
 			   <li><a href="#"> Vendas </a></li>
-			   <li><a href="#">  Produtos  </a></li>
+			   <li><a href="produtos.php">  Produtos  </a></li>
 			   <li><a href="#"> Financeiro </a></li>
+			   
+			  <li> <?php  $imagem_usuario->mostrar_imagem(); ?> </li>
+			   
 			   
 			 </ul>
 			  <script type="text/javascript" src="js/nav.js"></script>
-			  
+
 		  </div><!-- end h_menu4 -->
 		 <div class="clear"></div>
-		  <div style="margin-left: 94.6%; color"  > <a href="logout.php"><font color="white" onMouseOver="color='red'" onMouseOut="color='white'" > Logout </font></a></div>
+		  
+		  <div style="margin-left: 91.8%; color"  >
+		   <ul class="nav">
+		   <li class="active"><a href="#"> Opções </a>
+			   	 <ul>
+					<li><a href="#"> Editar </a></li>
+					<li><a href="logout.php"> Sair </a></li>
+					
+				 </ul></li>
+			</ul>
+		   </div>
+		   
+		  <!-- <div style="margin-left: 94.6%; color"  > <a href="logout.php"><font color="white" onMouseOver="color='red'" onMouseOut="color='white'" > Logout </font></a></div> -->
+		  
 	  </div>
 	  
 	</div>

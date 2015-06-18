@@ -124,6 +124,8 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 			
 			$imagem = new imagem_artesao();
 			
+			$count = 0;
+			
 			while ($rs = $consulta->fetch(PDO::FETCH_OBJ)) {
             
                   $imagem->id_artesao = $rs->id_artesao;
@@ -156,9 +158,14 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 											 <div class="comments">
 												<ul class="links">
 													
-													<li><a href="editar_artesao.php"><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
+													<form name="'.$count.'" id="'.$count.'" action="editar_artesao.php" method="post"  >
+													 
+													 <input type="hidden" name="id_artesao" id="id_artesao" value="'.$rs->id_artesao.'" >
+													
+													<li><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();" ><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
 													
 													<li><a href="#"><i class="remove"> </i><br><span> Excluir </span></a></li>
+													</form>
 												</ul>
 												
 												<div class="clear"></div>
@@ -194,9 +201,15 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 											 <div class="comments">
 												<ul class="links">
 													
-													<li><a href="editar_artesao.php"><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
+													<form name="'.$count.'" id="'.$count.'" action="editar_artesao.php" method="post" >
+													 
+													 <input type="hidden" name="id_artesao" id="id_artesao" value="'.$rs->id_artesao.'" >
+													</form>
+													
+													<li><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();" ><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
 													
 													<li><a href="#"><i class="remove"> </i><br><span> Excluir </span></a></li>
+													
 												</ul>
 												
 												<div class="clear"></div>
@@ -210,6 +223,8 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 							
 							
 						}
+						
+						$count = $count + 1;
 				}
 				
 				

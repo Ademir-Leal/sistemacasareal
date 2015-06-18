@@ -7,6 +7,22 @@ require_once "Classes.php";
 include "header.php";
 
 
+ 
+$artesao = new Artesao();
+
+$artesao->id_artesao = $_POST['id_artesao'];
+
+
+
+$artesao->getById($artesao->id_artesao);
+
+$artesao->data_nascimento = converte_data($artesao->data_nascimento);
+
+$array = explode(" ",$artesao->nome);
+
+$sobre_nome = str_replace($array[0],"",$artesao->nome);
+
+$artesao->nome = $array[0];
 
 
 ?>
@@ -100,6 +116,7 @@ return true;
 					 
 <?php
 
+
 if(isset($_REQUEST['email'])){
 	 
 		$email = $_POST['email'];
@@ -130,51 +147,50 @@ if(isset($_REQUEST['email'])){
 	$data = $_POST['data_nas'];
 	
 	$data = converte_data($data);
-	
-	echo $data;
-	
-	return;
-	
-   $novo_artesao = new Artesao();
+
    
-   $novo_artesao->cpf = $_POST['cpf'];
-   $novo_artesao->nome = $nome;
-   $novo_artesao->email = $email;
-   $novo_artesao->rua = $_POST['rua'];
-   $novo_artesao->numero = $_POST['numero'];
-   $novo_artesao->bairro = $_POST['bairro'];	
-   $novo_artesao->cidade = $_POST['cidade'];
-   $novo_artesao->estado = $_POST['uf'];	
-   $novo_artesao->telefone = $_POST['telefone'];
-   $novo_artesao->cep = $_POST['cep'];
-   $novo_artesao->data_nascimento = $_POST['data_nas'];
+   $artesao->cpf = $_POST['cpf'];
+   $artesao->nome = $nome;
+   $artesao->email = $email;
+   $artesao->rua = $_POST['rua'];
+   $artesao->numero = $_POST['numero'];
+   $artesao->bairro = $_POST['bairro'];	
+   $artesao->cidade = $_POST['cidade'];
+   $artesao->estado = $_POST['uf'];	
+   $artesao->telefone = $_POST['telefone'];
+   $artesao->cep = $_POST['cep'];
+   $artesao->data_nascimento = $data;
   
-   if($novo_artesao->salvar_novo() == false){
+   if($artesao->atualizar() == false){
 	   
 	        echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  Algum artesão já está cadastrado com esse CPF ou EMAIL !! </strong> 
+  <strong>  Não foi possível atualizar artesão, houve algum erro verifique os campos !! </strong> 
 </div><br>";  
 	   
    }
    else{
-   $novo_artesao->getByEmail($email);
-   
-   $imagem_artesao = new imagem_artesao();
-   
-   $imagem_artesao->id_artesao = $novo_artesao->id_artesao;
    
    if($_FILES["foto"]["name"] != ''){
-	   
-	   
-	   $imagem_artesao->inserir_imagem("foto");
+	
+	$imagem_artesao = new imagem_artesao();
+   
+    $imagem_artesao->id_artesao = $artesao->id_artesao;
+    
+     $result = $imagem_artesao->getImage();
+     
+     if($result) $imagem_artesao->trocar_imagem("foto");   
+	  else
+	      $imagem_artesao->inserir_imagem("foto");
 	   
    }
    
    echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  Cadastro Realizado com Sucesso!!! </strong> 
+  <strong>  Cadastro Atualizado com Sucesso!!! </strong> 
 </div><br>";
+
+ return;
    
 }
 
@@ -182,62 +198,70 @@ if(isset($_REQUEST['email'])){
    
 }
 
+$imagem = new imagem_artesao();
 
+$imagem->id_artesao = $artesao->id_artesao;
 
-?>					 
+$resp = $imagem->getImage();
 
+echo '<img src="data:image/jpeg;base64,'.base64_encode($imagem->conteudo).'" class="img-circle" width="70px" height="70px" alt=""/> <p><br/></p>';
+
+echo '
 					 
 					 
-                  <form name="cadastro_user" action='cadastro_artesao.php' method="post" enctype="multipart/form-data" onSubmit="return validar(this)"> 
+                  <form name="cadastro_user" action="editar_artesao.php" method="post" enctype="multipart/form-data" onSubmit="return validar(this)"> 
 								<div class="register-top-grid">
 										<h3> Dados do novo artesão </h3>
+										
+										<input type="hidden" name="id_artesao" id="id_artesao" value="'.$artesao->id_artesao.'" >
+										
 										<div>
 											<span> Nome do Artesão: <label>*</label></span>
-											<input type="text" name="nome" id="nome" > 
+											<input type="text" name="nome" id="nome" value="'.$artesao->nome.'" > 
 										</div>
 										<div>
 											<span> Sobre Nome:<label>*</label></span>
-											<input type="text" name="sobre_nome" id="sobre_nome"> 
+											<input type="text" name="sobre_nome" id="sobre_nome" value="'.$sobre_nome.'"  > 
 										</div>
 										<div>
 											<span>Email:<label>*</label></span>
-											<input type="text" name="email" id="email"> 
+											<input type="text" name="email" id="email" value="'.$artesao->email.'"> 
 										</div>
 										<div>
 											<span>Telefone:<label>*</label></span>
-											<input type="text" name="telefone" id="telefone"> 
+											<input type="text" name="telefone" id="telefone" value="'.$artesao->telefone.'"> 
 										</div>
 										<div>
 											<span>CPF:<label>*</label></span>
-											<input type="text" name="cpf" id="cpf" maxlength="11" > 
+											<input type="text" name="cpf" id="cpf" maxlength="11" value="'.$artesao->cpf.'" > 
 										</div>
 										<div>
 											<span>Data de Nascimento :<label>*</label></span>
-											<input type="text" name="data_nas" id="data_nas" maxlength="11" > 
+											<input type="text" name="data_nas" id="data_nas" maxlength="11" value="'.$artesao->data_nascimento.'" > 
 										</div>
 										<div>
 											<span>Rua:<label>*</label></span>
-											<input type="text" name="rua" id="rua"> 
+											<input type="text" name="rua" id="rua" value="'.$artesao->rua.'"> 
 										</div>
 										<div>
 											<span>Numero:<label>*</label></span>
-											<input type="text" name="numero" id="numero"> 
+											<input type="text" name="numero" id="numero" value="'.$artesao->numero.'"> 
 										</div>
 										<div>
 											<span>Bairro:<label>*</label></span>
-											<input type="text" name="bairro" id="bairro"> 
+											<input type="text" name="bairro" id="bairro" value="'.$artesao->bairro.'"> 
 										</div>
 										<div>
 											<span>Cidade:<label>*</label></span>
-											<input type="text" name="cidade" id="cidade"> 
+											<input type="text" name="cidade" id="cidade" value="'.$artesao->cidade.'"> 
 										</div>
 										<div>
 											<span>Estado:<label>*</label></span>
-											<input type="text" name="uf" id="uf"> 
+											<input type="text" name="uf" id="uf" value="'.$artesao->estado.'"> 
 										</div>
 										<div>
 											<span>CEP:<label>*</label></span>
-											<input type="text" name="cep" id="cep"> 
+											<input type="text" name="cep" id="cep" value="'.$artesao->cep.'"> 
 										</div>
 										<div>
 											<span>Foto do Artesão/tipo JPEG:<label></label></span>
@@ -250,10 +274,10 @@ if(isset($_REQUEST['email'])){
 										<div class="clear"> </div>
 								</div>
 								<div class="clear"> </div>
-								<input type="submit" value="Registrar">
-						</form>
+								<input type="submit" value="Salvar">
+						</form>';
 					 
-					 
+?>
 					 
 		         </div>
 
