@@ -137,6 +137,7 @@ class Artesao {
 }
 
 
+
 class user{
 	
 	
@@ -441,6 +442,186 @@ public function mostrar_imagem(){
 
 
 }
+
+
+class produto{
+	
+	
+	public $id_produto;
+	public $id_artesao;
+	public $descricao_produto;
+	public $qtd_estoque;
+	public $valor;
+	
+	
+	
+	
+	public function getById($id){
+		
+		$conexao = new conexao();
+		
+	    $resultado = $conexao->consulta("select * from produtos where id_produto=$id");
+		
+		$this->id_produto = $resultado->id_produto; 
+		$this->id_artesao = $resultado->id_artesao;
+		$this->descricao_produto = $resultado->descricao_produto;
+		$this->qtd_estoque = $resultado->qtd_estoque;
+		$this->valor = $resultado->valor;
+		
+		
+	}
+	
+	public function getByDescricao($descricao){
+		
+		$conexao = new conexao();
+		
+	    $resultado = $conexao->consulta("select * from produtos where descricao_produto='$descricao'");
+		
+		$this->id_produto = $resultado->id_produto; 
+		$this->id_artesao = $resultado->id_artesao;
+		$this->descricao_produto = $resultado->descricao_produto;
+		$this->qtd_estoque = $resultado->qtd_estoque;
+		$this->valor = $resultado->valor;
+		
+		
+	}
+	
+	
+	public function listall(){
+		
+		$conexao = new conexao();
+		
+	    $resultado = $conexao->consulta("select * from produtos",'vetor');
+		
+		return $resultado;
+		
+		
+	}
+	
+	
+	
+	
+	public function salvar_novo(){
+		
+		
+		$conexao = new conexao();
+		
+	    $conexao->insercao("insert into produtos(id_artesao,descricao_produto,qtd_estoque,valor) values($this->id_artesao,'$this->descricao_produto',$this->qtd_estoque,$this->valor)");
+	    
+	    return true;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+class imagem_produto {
+
+
+     public $id_image;
+     public $id_produto;
+     public $nome_imagem;
+     public $tipo;
+     public $tamanho;
+     public $conteudo;
+
+
+
+public function inserir_imagem($nome_campo){
+
+
+ if($nome_campo == Null || $this->id_produto == Null) return false;
+//recebe metadados da imagem
+$this->nome_imagem = $_FILES[$nome_campo]["tmp_name"];
+$this->tipo = $_FILES[$nome_campo]["type"];
+$this->tamanho = $_FILES[$nome_campo]["size"];
+
+//trata a imagem
+
+$this->conteudo = file_get_contents($this->nome_imagem);
+
+
+$this->conteudo = addslashes($this->conteudo);
+
+
+$this->nome_imagem = $_FILES[$nome_campo]["name"];
+
+
+
+   $conexao = new conexao();
+
+   $conexao->insercao("insert into imagens_produto(id_produto, nome_imagem, tipo, tamanho, conteudo) values($this->id_produto,'$this->nome_imagem','$this->tipo','$this->tamanho','$this->conteudo')");
+
+
+}
+
+
+public function trocar_imagem($nome_campo){
+	
+if($nome_campo == Null) return false;
+//recebe metadados da imagem
+$this->nome_imagem = $_FILES[$nome_campo]["tmp_name"];
+$this->tipo = $_FILES[$nome_campo]["type"];
+$this->tamanho = $_FILES[$nome_campo]["size"];
+
+//trata a imagem
+
+$this->conteudo = file_get_contents($this->nome_imagem);
+
+
+$this->conteudo = addslashes($this->conteudo);
+
+
+$this->nome_imagem = $_FILES[$nome_campo]["name"];
+
+
+
+   $conexao = new conexao();
+
+   $conexao->insercao("update imagens_produto set nome_imagem='$this->nome_imagem', tipo='$this->tipo', tamanho='$this->tamanho', conteudo ='$this->conteudo' where id_produto=$this->id_produto");
+
+
+	
+}
+
+
+
+public function getImage(){
+	
+   if($this->id_produto == NULL) return false;
+
+   $conexao = new conexao();
+
+   $resultado = $conexao->consulta("select * from imagens_produto where id_produto = $this->id_produto",'result');
+	
+   if($resultado->rowCount() > 0){
+     
+     $resultado = $resultado->fetch(PDO::FETCH_OBJ);
+     
+     $this->conteudo = $resultado->conteudo;
+     $this->id_image = $resultado->id_image;
+     $this->nome_imagem = $resultado->nome_imagem;
+     $this->tipo = $resultado->tipo;
+     $this->tamanho = $resultado->tamanho;
+     return true;
+   
+   }
+   else return false;
+	
+}
+
+}
+
 
 function converte_data($data){
 	

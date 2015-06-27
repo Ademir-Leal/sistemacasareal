@@ -34,7 +34,7 @@ $imagem_usuario->id_user = $usuario->id_user;
 
 
 <!DOCTYPE html>
-<html>
+<html   ng-app="app">
 <head>
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <link href="css/style.css" rel='stylesheet' type='text/css' />
@@ -43,7 +43,10 @@ $imagem_usuario->id_user = $usuario->id_user;
     <title>
         Casa Real
     </title>
-    
+
+<link type="text/css" href="js/jquery-ui.css" rel="stylesheet"/> 
+ 
+ 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
 <link href="css/datepicker.css" rel="stylesheet">
@@ -64,7 +67,7 @@ $imagem_usuario->id_user = $usuario->id_user;
 <script type="text/javascript" src="js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="js/jquery.contentcarousel.js"></script>
 <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-    
+
     
 </head>
 <body>

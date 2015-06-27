@@ -35,6 +35,10 @@ try{
      
      return $resultado->fetch(PDO :: FETCH_OBJ);
     }
+    else if($count == 0 && $tipo == Null ){
+		
+		return false;
+	}
     else {
 		
 		return $resultado;
@@ -54,7 +58,7 @@ public function insercao($consulta){
 	try{
  $resultado = $this->conexao->prepare($consulta);
 
-    $resultado->execute();
+   return $resultado->execute();
   
  
  

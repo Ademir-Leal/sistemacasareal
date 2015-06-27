@@ -250,7 +250,6 @@ if(isset($_REQUEST['email'])){
 						</form>
                     </div>
 
-
           </div>
       </div>
      </div>
