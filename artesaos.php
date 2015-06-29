@@ -42,7 +42,7 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 <div class="main">
 	<div class="about_banner_img"><img src="images/banner11.jpg" class="img-responsive" alt=""/></div>
 		 <div class="about_banner_wrap">
-      	    <h1 class="m_11"> Busca Artesão </h1>
+      	    <h1 class="m_11"> Busca de Artesão </h1>
       	</div>
 		<div class="border"> </div>
         
@@ -111,7 +111,10 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 			
 if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['cidade']))){
 			
-			if($consulta->rowCount() == 0){ 
+			
+			$numero_resultados = $consulta->rowCount();
+			
+			if($numero_resultados == 0){ 
 				
 				echo " <center><div class=\"alert\">
                        <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
@@ -121,6 +124,11 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 			  return;
 				
 			}
+			
+			echo '<div class="container">
+			       <div style=" position: relative; top: 50%; left: 32%; margin-top: -48px; margin-left: -100px;">
+			       
+			       <p> &nbsp; ARTESÃOS REGISTRADOS: '.$numero_resultados.' <br> <br></p>';
 			
 			$imagem = new imagem_artesao();
 			
@@ -135,20 +143,20 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
             if($resp){
         
 			     echo '
-			                          <div class="col-md-12">
+			                          <div class="col-md-8">
 			                           <div class="blog_box">
 										 <div class="blog_grid">
 										  <h3> <img src="data:image/jpeg;base64,'.base64_encode($imagem->conteudo).'" class="img-circle" width="70px" height="70px" alt=""/> &nbsp; <a href="#"> '.$rs->nome.' </a></h3><i class="document"> </i>
 										   <a href="#"></a> 
 										  <div class="singe_desc">
 											<p>   
-												<b>ID Artesão:</b> &nbsp; '.$rs->id_artesao.' &nbsp;| &nbsp; 
+												<b>ID Artesão:</b> &nbsp; '.$rs->id_artesao.' &nbsp; | &nbsp; 
 												<b> CPF: </b> &nbsp; '.$rs->cpf.' &nbsp; |&nbsp;
-												<b> Data Nascimento: </b> &nbsp; '.date('d/m/Y',strtotime($rs->data_nascimento)).' &nbsp;| &nbsp;    
+												<b> Data Nascimento: </b> &nbsp; '.date('d/m/Y',strtotime($rs->data_nascimento)).' <br /><br/>  
 											    <b> Rua: </b> &nbsp; '.$rs->rua.' &nbsp; |&nbsp; 
-											    <b> Número: </b> &nbsp;  '.$rs->numero.' <br /><br/>
+											    <b> Número: </b> &nbsp;  '.$rs->numero.' &nbsp; |&nbsp; 
 											    <b> Bairro: </b>  &nbsp; '.$rs->bairro.' &nbsp; |&nbsp;
-											    <b> Cidade: </b> &nbsp; '.$rs->cidade.' &nbsp; |&nbsp;
+											    <b> Cidade: </b> &nbsp; '.$rs->cidade.' <br /><br/>
 											    <b> CEP: </b> &nbsp; '.$rs->cep.' &nbsp; |&nbsp;
 											    <b> Estado: </b> &nbsp; '.$rs->estado.' &nbsp; |&nbsp;
 											    <b> Telefone: </b> &nbsp;  '.$rs->telefone.' &nbsp; |&nbsp;
@@ -178,7 +186,7 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 						else{
 							
 							echo '
-			                          <div class="col-md-12">
+			                          <div class="col-md-8">
 			                           <div class="blog_box">
 										 <div class="blog_grid">
 										  <h3> <img src="img/user.jpg" class="img-circle" width="70px" height="70px" alt=""/> &nbsp; <a href="#"> '.$rs->nome.' </a></h3><i class="document"> </i>
@@ -187,9 +195,9 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 											<p>   
 												<b>ID Artesão:</b> &nbsp; '.$rs->id_artesao.' &nbsp;| &nbsp; 
 												<b> CPF: </b> &nbsp; '.$rs->cpf.' &nbsp; |&nbsp;
-												<b> Data Nascimento: </b> &nbsp; '.date('d/m/Y',strtotime($rs->data_nascimento)).' &nbsp;| &nbsp;    
+												<b> Data Nascimento: </b> &nbsp; '.date('d/m/Y',strtotime($rs->data_nascimento)).' <br /><br/>    
 											    <b> Rua: </b> &nbsp; '.$rs->rua.' &nbsp; |&nbsp; 
-											    <b> Número: </b> &nbsp;  '.$rs->numero.' <br /><br/>
+											    <b> Número: </b> &nbsp;  '.$rs->numero.' &nbsp; |&nbsp;
 											    <b> Bairro: </b>  &nbsp; '.$rs->bairro.' &nbsp; |&nbsp;
 											    <b> Cidade: </b> &nbsp; '.$rs->cidade.' &nbsp; |&nbsp;
 											    <b> CEP: </b> &nbsp; '.$rs->cep.' &nbsp; |&nbsp;
@@ -227,7 +235,8 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 						$count = $count + 1;
 				}
 				
-				
+				echo ' </div>
+				      </div>';
 			}
 ?>
 			          

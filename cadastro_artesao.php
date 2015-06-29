@@ -56,7 +56,7 @@ if(isNaN(cpf) || cpf_tamanho < 11  ){
 if(isNaN(cep)){
 	
 	alert("O CEP deve conter apenas números !!");
-	cadastro_artesao.cpf.focus();
+	cadastro_artesao.cep.focus();
 	return false;
 }
 
@@ -170,7 +170,7 @@ if(isset($_REQUEST['email'])){
    
    echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  Cadastro Realizado com Sucesso!!! </strong> 
+  <strong>  CADASTRO REALIZADO COM SUCESSO!!! </strong> 
 </div><br>";
    
 }

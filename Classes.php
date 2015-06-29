@@ -506,6 +506,8 @@ class produto{
 	
 	public $id_produto;
 	public $id_artesao;
+	public $cpf_artesao;
+	public $nome_artesao;
 	public $descricao_produto;
 	public $qtd_estoque;
 	public $valor;
@@ -517,10 +519,12 @@ class produto{
 		
 		$conexao = new conexao();
 		
-	    $resultado = $conexao->consulta("select * from produtos where id_produto=$id");
+	    $resultado = $conexao->consulta("select * from produtos_artesao where id_produto=$id");
 		
 		$this->id_produto = $resultado->id_produto; 
 		$this->id_artesao = $resultado->id_artesao;
+		$this->nome_artesao = $resultado->nome;
+		$this->cpf_artesao = $resultado->cpf_artesao;
 		$this->descricao_produto = $resultado->descricao_produto;
 		$this->qtd_estoque = $resultado->qtd_estoque;
 		$this->valor = $resultado->valor;
@@ -585,6 +589,18 @@ class produto{
 	    
 	    return true;
 		
+		
+	}
+	
+	public function atualizar(){
+		
+		
+		$conexao = new conexao();
+		
+		$conexao->update("update produtos set id_artesao=$this->id_artesao, descricao_produto='$this->descricao_produto', qtd_estoque='$this->qtd_estoque', valor='$this->valor' 
+		                  where id_produto=$this->id_produto");
+		
+		return true;
 		
 	}
 	
@@ -696,6 +712,33 @@ public function getImage(){
 }
 
 }
+
+
+class venda {
+	
+	
+	public $data_hora_venda;
+	
+	
+	public function getById($id){
+		
+		$conexao = new conexao();
+		
+	    $resultado = $conexao->consulta("select * from vendas where id_venda=$id");
+		
+		$this->data_hora_venda = $resultado->data_venda;
+		
+		return true;
+		
+		
+	}
+	
+	
+	
+	
+}
+
+
 
 
 function converte_data($data){

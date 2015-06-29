@@ -20,7 +20,7 @@ $artesao->data_nascimento = converte_data($artesao->data_nascimento);
 
 $array = explode(" ",$artesao->nome);
 
-$sobre_nome = str_replace($array[0],"",$artesao->nome);
+$sobre_nome = str_replace($array[0]." ","",$artesao->nome);
 
 $artesao->nome = $array[0];
 
@@ -32,6 +32,7 @@ $artesao->nome = $array[0];
       $(document).ready(function () {
         $('#data_nas').datepicker({
             format: "dd/mm/yyyy",
+             autoclose: true,
             language: "pt-BR"
         });
       });
@@ -204,14 +205,15 @@ $imagem->id_artesao = $artesao->id_artesao;
 
 $resp = $imagem->getImage();
 
-echo '<img src="data:image/jpeg;base64,'.base64_encode($imagem->conteudo).'" class="img-circle" width="70px" height="70px" alt=""/> <p><br/></p>';
+if($resp) echo '<img src="data:image/jpeg;base64,'.base64_encode($imagem->conteudo).'" class="img-circle" width="70px" height="70px" alt=""/> <p><br/></p>';
+else echo '<img src="img/user.jpg" class="img-circle" width="70px" height="70px" alt=""/>';
 
 echo '
 					 
 					 
                   <form name="cadastro_user" action="editar_artesao.php" method="post" enctype="multipart/form-data" onSubmit="return validar(this)"> 
 								<div class="register-top-grid">
-										<h3> Dados do novo artesão </h3>
+										<h3> Dados do Artesão </h3>
 										
 										<input type="hidden" name="id_artesao" id="id_artesao" value="'.$artesao->id_artesao.'" >
 										

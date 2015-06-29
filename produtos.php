@@ -83,13 +83,7 @@ include "header.php";
      
      $produto = new produto();
      
-     $produto->id_artesao = 2;
-     $produto->descricao_produto = 'Vaso feito de Barro';
-     $produto->qtd_estoque = 15;
-     $produto->valor = 10.70;
      
-     
-    
      
      
      if(($descricao == '') && ($artesao == '') && ($filtro == '')){
@@ -101,6 +95,24 @@ include "header.php";
 	 }
 	 else{
 		 
+		 if( ($filtro != '') && (!is_numeric($filtro))){
+		 
+		  echo '<div class="container">
+	      <div style=" position: relative; top: 50%; left: 35%; margin-top: -48px; margin-left: -100px;">
+		   <div class="classes_wrapper">
+		 	<div class="row class_box">
+	       
+	    '; 
+		 
+		  echo " <br/> <br/> <div class=\"alert\">
+                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
+                       <strong>  NENHUM RESULTADO !! </strong> 
+                       </div><br>";
+                       
+                       return;
+		 
+		 
+	 }
 		 
 		 $resul = $produto->listByFiltro($descricao, $artesao, $filtro);
 		 
@@ -114,8 +126,9 @@ include "header.php";
 	       
 	    '; 
 	    
+	    $numero_resultados = $resul->rowCount();
 	    
-	    if($resul->rowCount() == 0) {
+	    if($numero_resultados == 0) {
 		 
 		   echo " <br/> <br/> <div class=\"alert\">
                        <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
@@ -124,13 +137,18 @@ include "header.php";
                        
                        return;
 			 
-		          }
+		 }
+		 
+		 echo '<p> &nbsp; PRODUTOS CADASTRADOS: '.$numero_resultados.'  <br><br></p>';
+			
 	    
 	  $count=0;
 	 
 	 $imagem = new imagem_produto();
 	 $imagem_artesao = new imagem_artesao();
 	 $artesao = new Artesao();
+	 
+	 $count = 0;
 	 
 	 while ($rs = $resul->fetch(PDO::FETCH_OBJ)) {
 	 
@@ -161,8 +179,22 @@ include "header.php";
 			   echo '</div>
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
-					  	 <li class="btn5"><a href="#"> Editar </a></li>	
-				         <li class="btn6"><a href="#"> Excluir </a></li>	
+					     
+					    <form name="'.$count.'" id="'.$count.'" action="editar_produto.php" method="post" >
+													 
+						<input type="hidden" name="id_produto" id="id_produto" value="'.$rs->id_produto.'" >
+						
+						</form>
+						
+						<form name="delete'.$count.'" id="delete'.$count.'" action="produtos.php" method="post" >
+													 
+						<input type="hidden" name="produto_delete" id="produto_delete" value="'.$rs->id_produto.'" >
+						
+						</form>
+					     
+					     
+					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
+				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
 			            <div class="clear"></div>
 			         </ul>
 					</div>
@@ -176,7 +208,7 @@ include "header.php";
          
          <div class="col-md-6">
 				<div class="class_left">
-					<img src="img/inicial.jpg" width="260px" height="240px" alt=""/>
+					<img src="img/sem_imagem.png" width="260px" height="240px" alt=""/>
 				</div>
 				<div class="class_right">
 					<h3> '.$rs->descricao_produto.'    </h3>
@@ -192,9 +224,23 @@ include "header.php";
 					 echo' </div>
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
-					  	 <li class="btn5"><a href="#"> Editar </a></li>	
-				         <li class="btn6"><a href="#"> Excluir </a></li>	
+					     
+					     <form name="'.$count.'" id="'.$count.'" action="editar_produto.php" method="post" >
+													 
+						<input type="hidden" name="id_produto" id="id_produto" value="'.$rs->id_produto.'" >
+						</form>
+					     
+					     <form name="delete'.$count.'" id="delete'.$count.'" action="produtos.php" method="post" >
+													 
+						<input type="hidden" name="produto_delete" id="produto_delete" value="'.$rs->id_produto.'" >
+						
+						</form>
+					     
+					     
+					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
+				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
 			            <div class="clear"></div>
+					  	 
 			         </ul>
 					</div>
 				</div>
@@ -207,6 +253,8 @@ include "header.php";
 			  
 			  
 		  }
+		  
+		  $count = $count + 1;
 		   
 	   }
 		 
@@ -217,7 +265,21 @@ include "header.php";
 
 		 
 		 
-}		               
+}
+else if(isset($_REQUEST['produto_delete'])){
+	
+	echo " <br/> <br/> <div class=\"alert\">
+                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
+                       <strong>  PRODUTO EXCLUÍDO !! </strong> 
+                       </div><br>";
+                       
+                       return;
+	   
+	
+	
+	
+}
+	               
 		               
 		               
 ?>	 

@@ -75,7 +75,7 @@ return true;
 	
 	<div class="about_banner_img"><img src="images/banner11.jpg" class="img-responsive" alt=""/></div>
 		 <div class="about_banner_wrap">
-      	    <h1 class="m_11"> Registro </h1>
+      	    <h1 class="m_11"> Registro de novo usuário </h1>
       	</div>
 		<div class="border"> </div>
 	 	 <div class="container">

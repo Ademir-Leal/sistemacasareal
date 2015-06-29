@@ -9,7 +9,7 @@ include "header.php";
 
 $array = explode(" ",$usuario->nome);
 
-$sobre_nome = str_replace($array[0],"",$usuario->nome);
+$sobre_nome = str_replace($array[0]." ","",$usuario->nome);
 
 $usuario->nome = $array[0];
 
@@ -152,9 +152,14 @@ if(isset($_REQUEST['email']) && isset($_REQUEST['cpf'])){
    
    echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  EDIÇAO REALIZADA COM SUCESSO!!! </strong> 
+  <strong>  EDIÇÃO REALIZADA COM SUCESSO!!! </strong> 
 </div><br>";
    
+$array = explode(" ",$usuario->nome);
+
+$sobre_nome = str_replace($array[0]." ","",$usuario->nome);
+
+$usuario->nome = $array[0];
    
    
 }
