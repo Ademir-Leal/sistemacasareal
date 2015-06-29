@@ -440,6 +440,63 @@ public function mostrar_imagem(){
 
 }
 
+public function trocar_imagem($nome_campo){
+	
+if($nome_campo == Null) return false;
+//recebe metadados da imagem
+$this->nome_imagem = $_FILES[$nome_campo]["tmp_name"];
+$this->tipo = $_FILES[$nome_campo]["type"];
+$this->tamanho = $_FILES[$nome_campo]["size"];
+
+//trata a imagem
+
+$this->conteudo = file_get_contents($this->nome_imagem);
+
+
+$this->conteudo = addslashes($this->conteudo);
+
+
+$this->nome_imagem = $_FILES[$nome_campo]["name"];
+
+
+
+   $conexao = new conexao();
+
+   $conexao->insercao("update imagens_user set nome_imagem='$this->nome_imagem', tipo='$this->tipo', tamanho='$this->tamanho', conteudo ='$this->conteudo' where id_user=$this->id_user");
+
+
+	
+}
+
+
+
+public function getImage(){
+	
+   if($this->id_artesao == NULL) return false;
+
+   $conexao = new conexao();
+
+   $resultado = $conexao->consulta("select * from imagens_user where id_user = $this->id_user",'result');
+	
+   if($resultado->rowCount() > 0){
+     
+     $resultado = $resultado->fetch(PDO::FETCH_OBJ);
+     
+     $this->conteudo = $resultado->conteudo;
+     $this->id_image = $resultado->id_image;
+     $this->nome_imagem = $resultado->nome_imagem;
+     $this->tipo = $resultado->tipo;
+     $this->tamanho = $resultado->tamanho;
+     return true;
+   
+   }
+   else return false;
+	
+}
+
+
+
+
 
 }
 
@@ -497,6 +554,24 @@ class produto{
 		
 		
 	}
+	
+	
+	
+	public function listByFiltro($descricao, $artesao, $estoque){
+		
+		
+		if($estoque == '') $estoque = 10000;
+		
+		$conexao = new conexao();
+		
+		
+		
+		return $conexao->consulta("select * from produtos_artesao where nome like '%$artesao%' and descricao_produto like '%$descricao%' and qtd_estoque < $estoque",'result');
+	   
+		
+		
+	}
+	
 	
 	
 	

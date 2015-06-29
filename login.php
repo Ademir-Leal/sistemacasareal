@@ -103,16 +103,8 @@ return true;
  <div class="main">
           <div class="login_top">
           	<div class="container">
-			  <div class="col-md-6">
-				 <div class="login-page">
-					<h4 class="title"> Novos  Usuários </h4>
-					<p> Para criar novos usuários clique no botão abaixo  </p>
-					<div class="button1">
-					   <a href="insere.php"><input type="submit" name="Submit" value="Criar"></a>
-					 </div>
-					 <div class="clear"></div>
-				  </div>
-				</div>
+			  
+			  <div style=" position: relative; top: 50%; left: 35%; margin-top: -20px; margin-left: -100px;">
 				<div class="col-md-6">
 				 <div class="login-page">
 				  <div class="login-title">
@@ -169,6 +161,7 @@ return true;
 				</div>
 				<div class="clear"></div>
 			  </div>
+			</div>
 			</div>
 		  </div>
          </div>       

@@ -43,11 +43,12 @@ return false;
 }
 
  var cpf = cadastro_artesao.cpf.value;
+ var cpf_tamanho = cadastro_artesao.cpf.value.length;
  var cep = cadastro_artesao.cep.value;
 
-if(isNaN(cpf)){
+if(isNaN(cpf) || cpf_tamanho < 11  ){
 	
-	alert("O CPF deve conter apenas números !!");
+	alert("O CPF deve conter 11 dígitos apenas números !!");
 	cadastro_artesao.cpf.focus();
 	return false;
 }

@@ -10,7 +10,7 @@ include "header.php";
 <div class="main">
 	<div class="about_banner_img"><img src="images/banner11.jpg" class="img-responsive" alt=""/></div>
 		 <div class="about_banner_wrap">
-      	    <h1 class="m_11"> Busca Produto </h1>
+      	    <h1 class="m_11"> Busca de Produto </h1>
       	</div>
 		<div class="border"> </div>
 	
@@ -51,12 +51,8 @@ include "header.php";
 													     
 													</p>
 													<p id="login-form-username">
-													  <label for="modlgn_username"> Filtro: </label>
-													   <select id="filtro" name="filtro" class="form-control">
-														  <option value="N" > Nenhum </option>
-														  <option value="baixo"> Estoque Baixo </option>
-														  <option value="alto"> Estoque Alto </option>
-													   </select>
+													  <label for="modlgn_username"> Estoque: </label>
+													      <input id="filtro" type="text" name="filtro" class="inputbox" size="17" >
 													</p>
 													<div class="remember">
 														
@@ -96,7 +92,7 @@ include "header.php";
     
      
      
-     if(($descricao == '') && ($artesao == '') && ($filtro == "N")){
+     if(($descricao == '') && ($artesao == '') && ($filtro == '')){
 		 
 		 
 		      $resul = $produto->listall();
@@ -106,18 +102,10 @@ include "header.php";
 	 else{
 		 
 		 
-		 
-		 
+		 $resul = $produto->listByFiltro($descricao, $artesao, $filtro);
 		 
 	 }
 	 
-        
-
-	 $count=0;
-	 
-	 $imagem = new imagem_produto();
-	 $imagem_artesao = new imagem_artesao();
-	 $artesao = new Artesao();
 	 
 	 echo '<div class="container">
 	      <div style=" position: relative; top: 50%; left: 35%; margin-top: -48px; margin-left: -100px;">
@@ -125,7 +113,24 @@ include "header.php";
 		 	<div class="row class_box">
 	       
 	    '; 
-	         
+	    
+	    
+	    if($resul->rowCount() == 0) {
+		 
+		   echo " <br/> <br/> <div class=\"alert\">
+                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
+                       <strong>  NENHUM RESULTADO !! </strong> 
+                       </div><br>";
+                       
+                       return;
+			 
+		          }
+	    
+	  $count=0;
+	 
+	 $imagem = new imagem_produto();
+	 $imagem_artesao = new imagem_artesao();
+	 $artesao = new Artesao();
 	 
 	 while ($rs = $resul->fetch(PDO::FETCH_OBJ)) {
 	 
@@ -147,12 +152,13 @@ include "header.php";
 					<h3> '.$rs->descricao_produto.'    </h3>
 					<p> Artesão: '.$artesao->nome.'  </p>
 					<div class="class_img">
-					  <img src="img/user.jpg" alt=""/>
+					  <img src="data:image/jpeg;base64,'.base64_encode($imagem_artesao->conteudo).'" alt=""/>
 					  <div class="class_desc">
 					  	<h4> Valor: R$ '.$rs->valor.' </h4>
-					  	<h5> Quantidade em Estoque: '.$rs->qtd_estoque.'  </h5>
-					  	<p> Está em estoque alto  </p>
-					  </div>
+					  	<h5> Quantidade em Estoque: '.$rs->qtd_estoque.'  </h5>';
+					  	if($rs->qtd_estoque < 5) echo '<font color="FF0033"> ESTOQUE EM BAIXA QUANTIDADE   </font>';
+					  	else echo '<p> ESTOQUE EM ALTA QUANTIDADE  </p>';
+			   echo '</div>
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
 					  	 <li class="btn5"><a href="#"> Editar </a></li>	
@@ -179,9 +185,11 @@ include "header.php";
 					   <img src="data:image/jpeg;base64,'.base64_encode($imagem_artesao->conteudo).'" alt=""/>
 					  <div class="class_desc">
 					  	<h4> Valor: R$ '.$rs->valor.' </h4>
-					  	<h5> Quantidade em Estoque: '.$rs->qtd_estoque.'  </h5>
-					  	<p> Está em estoque alto  </p>
-					  </div>
+					  	<h5> Quantidade em Estoque: '.$rs->qtd_estoque.'  </h5>';
+					  	
+					  	if($rs->qtd_estoque < 5) echo '<font color="FF0033"> ESTOQUE EM BAIXA QUANTIDADE   </font>';
+					  	else echo '<p> ESTOQUE EM ALTA QUANTIDADE  </p>';
+					 echo' </div>
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
 					  	 <li class="btn5"><a href="#"> Editar </a></li>	

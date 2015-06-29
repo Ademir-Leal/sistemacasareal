@@ -4,41 +4,9 @@ require_once "conexao.php";
 require_once "Classes.php";
 
 
-
+include "header.php";
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-    <link href="css/style.css" rel='stylesheet' type='text/css' />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>
-        Registro
-    </title>
-    
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel='stylesheet' type='text/css'>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />-->
-<script src="js/jquery.min.js"></script>
-<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			$(".scroll").click(function(event){		
-				event.preventDefault();
-				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-			});
-		});
-	</script>
-        
-<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="js/jquery.contentcarousel.js"></script>
-<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-    
-</head>
-<body>
 	
 <script type="text/javascript" language="javascript">
 
@@ -77,6 +45,17 @@ return false;
 
 }
 
+ var cpf = cadastro_cliente.cpf.value;
+ var cpf_tamanho = cadastro_cliente.cpf.value.length;
+ 
+
+if(isNaN(cpf) || cpf_tamanho < 11  ){
+	
+	alert("O CPF deve conter 11 dígitos apenas números !!");
+	cadastro_cliente.cpf.focus();
+	return false;
+}
+
 if(cadastro_cliente.senha.value != cadastro_cliente.confir.value){
 
  alert(" A SENHA dos campos SENHA e CONFIRMA SENHA estão diferentes!!");
@@ -91,32 +70,6 @@ return true;
 
 </script>
 	
-	
-	
-	
-    <div class="header-bottom">
-		 <div class="container">
-			<div class="header-bottom_left">
-				<i class="phone"> </i><span> (38)3531 - 0000  </span>
-			</div>
-			<div class="social">	
-			   <ul>	
-				  <li class="facebook"><a href="#"><span> </span></a></li>
-				  <li class="twitter"><a href="#"><span> </span></a></li>
-				  <li class="pinterest"><a href="#"><span> </span></a></li>	
-				  <li class="google"><a href="#"><span> </span></a></li>
-				  <li class="tumblr"><a href="#"><span> </span></a></li>
-				  <li class="instagram"><a href="#"><span> </span></a></li>	
-				  <li class="rss"><a href="#"><span> </span></a></li>
-				  							
-			   </ul>
-		   </div>
-		   <div class="clear"></div>
-		</div>
-	  </div>
-        <footer>
-        </footer>
-    </div>
 
 <div class="main">
 	
@@ -128,9 +81,6 @@ return true;
 	 	 <div class="container">
 			 
 	         
-	         <div align="Right" >
-	         <a align="Right" href="login.php"><span> Login </span></a></h3>
-	         </div>
 			 
 		 </div>
 </div>
@@ -201,7 +151,7 @@ if(isset($_REQUEST['email'])){
    
    echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  Cadastro Realizado com Sucesso!!! Clique no Link Login para acessar o sistema. </strong> 
+  <strong>  Cadastro Realizado com Sucesso!!! </strong> 
 </div><br>";
    
    

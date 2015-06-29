@@ -187,7 +187,7 @@ if(isset($_REQUEST['email'])){
    
    echo " <div class=\"alert\">
   <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-  <strong>  Cadastro Atualizado com Sucesso!!! </strong> 
+  <strong>  CADASTRO ATUALIZADO COM SUCESSO!!! </strong> 
 </div><br>";
 
  return;

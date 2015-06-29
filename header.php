@@ -117,7 +117,7 @@ $imagem_usuario->id_user = $usuario->id_user;
 			   <li><a href="#"> Vendas </a></li>
 			   <li><a href="produtos.php">  Produtos  </a></li>
 			   <li><a href="#"> Financeiro </a></li>
-			   
+			   <li><a href="insere.php"> Cadastrar Novo Usuário </a></li>
 			  <li> <?php  $imagem_usuario->mostrar_imagem(); ?> </li>
 			   
 			   
@@ -131,7 +131,8 @@ $imagem_usuario->id_user = $usuario->id_user;
 		   <ul class="nav">
 		   <li class="active"><a href="#"> Opções </a>
 			   	 <ul>
-					<li><a href="#"> Editar </a></li>
+					 
+					<li><a href="editar_usuario.php"> Editar </a></li>
 					<li><a href="logout.php"> Sair </a></li>
 					
 				 </ul></li>
