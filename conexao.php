@@ -9,7 +9,7 @@ private $conexao;
 function __construct(){
 
 try {
-    $this->conexao = new PDO('mysql:host=localhost;dbname=cake','root', '');
+    $this->conexao = new PDO('mysql:host=localhost;dbname=casareal','root', '');
     $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     echo 'ERROR: ' . $e->getMessage();
