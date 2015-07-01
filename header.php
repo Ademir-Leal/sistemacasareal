@@ -116,7 +116,7 @@ $imagem_usuario->id_user = $usuario->id_user;
 			   <li><a href="artesaos.php"> Artesãos </a></li>
 			   <li><a href="vendas.php"> Vendas </a></li>
 			   <li><a href="produtos.php">  Produtos  </a></li>
-			   <li><a href="#"> Financeiro </a></li>
+			   <li><a href="financeiro.php"> Financeiro </a></li>
 			   <li><a href="insere.php"> Cadastrar Novo Usuário </a></li>
 			  <li> <?php  $imagem_usuario->mostrar_imagem(); ?> </li>
 			   
