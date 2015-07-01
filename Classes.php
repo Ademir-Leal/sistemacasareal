@@ -716,23 +716,108 @@ public function getImage(){
 
 class venda {
 	
-	
+	public $id_venda;
+	public $id_artesao;
+	public $nome_artesao;
+	public $id_produto;
+	public $descricao_produto;
+	public $id_user;
+	public $nome_user;
 	public $data_hora_venda;
+	public $qtd_do_produto;
+	public $valor_venda;
 	
 	
 	public function getById($id){
 		
 		$conexao = new conexao();
 		
-	    $resultado = $conexao->consulta("select * from vendas where id_venda=$id");
+	    $resultado = $conexao->consulta("select * from vendas_produtos where id_venda=$id");
 		
+	    $this->id_venda = $resultado->id_venda;
+	    $this->id_artesao = $resultado->id_artesao;
+	    $this->nome_artesao = $resultado->nome_artesao;
+	    $this->id_produto = $resultado->id_produto;
+	    $this->descricao_produto = $resultado->descricao_produto;
+	    $this->id_user = $resultado->id_user;
+		$this->nome_user = $resultado->nome_user;
 		$this->data_hora_venda = $resultado->data_venda;
+		$this->qtd_do_produto = $resultado->qtd_do_produto;
+		$this->valor_venda = $resultado->valor_venda;
 		
 		return true;
 		
 		
 	}
 	
+	public function listall(){
+		
+		$conexao = new conexao();
+		
+	    return $conexao->consulta("select * from vendas_produtos order by data_venda DESC",'vetor');
+			
+	}
+	
+	public function listByFiltro($produto,$artesao,$data_inicio,$data_termino){
+		
+
+        if($data_inicio == '' && $data_termino == ''){
+			
+		$conexao = new conexao();
+		
+	    return $conexao->consulta("select * from vendas_produtos where descricao_produto like 
+	                    '%$produto%' and nome_artesao like '%$artesao%' order by data_venda DESC",'vetor');
+				
+		} 
+		else if($data_inicio == '' && $data_termino != '') { 
+			
+			$data_termino = converte_data($data_termino);
+			
+			$conexao = new conexao();
+		
+	        return $conexao->consulta("select * from vendas_produtos where descricao_produto like 
+	           '%$produto%' and nome_artesao like '%$artesao%' and data_venda <= date('$data_termino') order by data_venda DESC ",'vetor');
+			
+		}
+		else if($data_inicio != '' && $data_termino == ''){
+			
+			$data_inicio = converte_data($data_inicio);
+			
+			$conexao = new conexao();
+		
+	        return $conexao->consulta("select * from vendas_produtos where descricao_produto 
+	                  like '%$produto%' and nome_artesao like '%$artesao%' and data_venda >= date('$data_inicio') order by data_venda DESC",'vetor');
+			
+		}
+		else {
+			
+			$data_inicio = converte_data($data_inicio);
+			
+			$data_termino = converte_data($data_termino);
+			
+			$conexao = new conexao();
+		
+	        return $conexao->consulta("select * from vendas_produtos where descricao_produto 
+	             like '%$produto%' and nome_artesao like '%$artesao%' and data_venda >= date('$data_inicio') and data_venda <= date('$data_termino') order by data_venda DESC",'vetor');
+			
+			
+		}
+		
+	}
+	
+	public function salvar_novo(){
+		
+		$conexao = new conexao();
+		
+	    $conexao->insercao("insert into vendas(id_artesao,id_produto,id_user,data_venda,qtd_do_produto,valor_venda) 
+	                          values($this->id_artesao,'$this->id_produto',$this->id_user,now(),$this->qtd_do_produto,$this->valor_venda)");
+	    
+	    return true;
+		
+		
+		
+		
+	}
 	
 	
 	

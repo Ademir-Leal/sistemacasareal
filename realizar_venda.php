@@ -1,23 +1,26 @@
-<?php 
+<?php
+
 require_once "conexao.php";
 require_once "Classes.php";
 
 
 include "header.php";
- 
+
+
+
 ?>
 
 <div class="main">
 	<div class="about_banner_img"><img src="images/banner11.jpg" class="img-responsive" alt=""/></div>
 		 <div class="about_banner_wrap">
-      	    <h1 class="m_11"> Busca de Produto </h1>
+      	    <h1 class="m_11"> Nova Venda </h1>
       	</div>
 		<div class="border"> </div>
 	
 	
-	 	<div class="container">
+ <div class="container">
 			 
-		<div class="row single-top">
+   <div class="row single-top">
 			
 
 					
@@ -26,19 +29,18 @@ include "header.php";
 							 <div class="col-md-3 ">
 							   <ul class="blog-list">
 								  <h4> Opções </h4>
-								  <li><a href="produtos.php"> Buscar Produto </a></li>
-								  <li><a href="cadastro_produto.php"> Casdastrar Novo Produto </a></li>
+								  <li><a href="vendas.php"> Pesquisar Venda Realizada </a></li>
+								  <li><a href="realizar_venda.php"> Realizar Nova Venda </a></li>
 								</ul>
 				              </div>
-				              
 				              
 				              <div class="col-md-9">
 				                <div class="login-page">
 				                     <div class="login-title">
-	           		                   <h4 class="title"> Buscar Produto </h4>
+	           		                   <h4 class="title"> Buscar Produto para Realizar Venda </h4>
 					                      <div id="loginbox" class="loginbox">
 						                    <fieldset class="input">
-												<form name="busca" action="produtos.php" method="post"  id="busca" enctype="multipart/form-data" >
+												<form name="busca" action="realizar_venda.php" method="post"  id="busca" enctype="multipart/form-data" >
 						  
 													<p id="login-form-username">
 													  <label for="modlgn_username"> Descrição do Produto: </label>
@@ -148,6 +150,7 @@ include "header.php";
 	 $imagem_artesao = new imagem_artesao();
 	 $artesao = new Artesao();
 	 
+	 $mensagem = "ESTOQUE VAZIO, A VENDA DESSE PRODUTO NÃO PODE SER REALIZADA!!";
 	 $count = 0;
 	 
 	 while ($rs = $resul->fetch(PDO::FETCH_OBJ)) {
@@ -180,21 +183,15 @@ include "header.php";
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
 					     
-					    <form name="'.$count.'" id="'.$count.'" action="editar_produto.php" method="post" >
+					    <form name="'.$count.'" id="'.$count.'" action="nova_venda.php" method="post" >
 													 
 						<input type="hidden" name="id_produto" id="id_produto" value="'.$rs->id_produto.'" >
-						
+						<input type="hidden" name="estoque" id="estoque" value="'.$rs->qtd_estoque.'" >
 						</form>
 						
-						<form name="delete'.$count.'" id="delete'.$count.'" action="produtos.php" method="post" >
-													 
-						<input type="hidden" name="produto_delete" id="produto_delete" value="'.$rs->id_produto.'" >
-						
-						</form>
 					     
-					     
-					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
-				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
+				         <li class="btn6"><a href="#" OnClick="javascript: if(document.getElementById(\''.$count.'\').estoque.value == 0 ){ alert(\''.$mensagem.'\'); return false; } 
+				           else document.getElementById(\''.$count.'\').submit(); "  > Relizar Venda </a></li>
 			            <div class="clear"></div>
 			         </ul>
 					</div>
@@ -225,20 +222,15 @@ include "header.php";
 					    <div class="clear"></div>
 					     <ul class="buttons_class">
 					     
-					     <form name="'.$count.'" id="'.$count.'" action="editar_produto.php" method="post" >
+					     <form name="'.$count.'" id="'.$count.'" action="nova_venda.php" method="post">
 													 
 						<input type="hidden" name="id_produto" id="id_produto" value="'.$rs->id_produto.'" >
+						<input type="hidden" name="estoque" id="estoque" value="'.$rs->qtd_estoque.'" >
 						</form>
 					     
-					     <form name="delete'.$count.'" id="delete'.$count.'" action="produtos.php" method="post" >
-													 
-						<input type="hidden" name="produto_delete" id="produto_delete" value="'.$rs->id_produto.'" >
-						
-						</form>
-					     
-					     
-					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
-				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
+					  <li class="btn6"><a href="#" OnClick="javascript: if(document.getElementById(\''.$count.'\').estoque.value == 0 ){ alert(\''.$mensagem.'\'); return false; } 
+					          else document.getElementById(\''.$count.'\').submit(); "  > Relizar Venda </a></li>
+				         
 			            <div class="clear"></div>
 					  	 
 			         </ul>
@@ -262,31 +254,16 @@ include "header.php";
 		         </div> 
 		       </div>
 		       </div>';
+		       
+  }
+		       
+?>
 
-		 
-		 
-}
-else if(isset($_REQUEST['produto_delete'])){
-	
-	echo " <br/> <br/> <div class=\"alert\">
-                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-                       <strong>  PRODUTO EXCLUÍDO !! </strong> 
-                       </div><br>";
-                       
-                       return;
-	   
-	
-	
-	
-}
-	               
-		               
-		               
-?>	 
-		    </div>
-		 
-		</div>	 
+
+    </div>	 
 			 
  </div>
-	
-<?php include "footer.php"; ?> 
+
+
+
+<?php include "footer.php"; ?>
