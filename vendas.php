@@ -29,6 +29,19 @@ $(document).ready(function () {
       });
 
 
+function validar(busca_venda) {
+	
+	var percent = busca_venda.percent.value;
+	
+if(isNaN(percent)){
+	
+	alert("A PORCENTAGEM PARA O CENTRO DE APOIO DEVE SER UM VALOR NUMÉRICO !!");
+	busca_venda.percent.focus();
+	return false;
+}
+	
+	
+}
 
 
 </script>
@@ -63,7 +76,7 @@ $(document).ready(function () {
 	           		                   <h4 class="title"> Buscar Venda Realizada </h4>
 					                      <div id="loginbox" class="loginbox">
 						                    <fieldset class="input">
-												<form name="busca" action="vendas.php" method="post"  id="busca" enctype="multipart/form-data" >
+												<form name="busca" action="vendas.php" method="post"  id="busca" enctype="multipart/form-data" onSubmit="return validar(this)">
 						  
 													<p id="login-form-username">
 													  <label for="modlgn_username"> Produto: </label>
@@ -76,7 +89,7 @@ $(document).ready(function () {
 													     
 													</p>
 													<p id="login-form-username">
-													  <label for="modlgn_username"> Porcentagem para o Centro de Apoio: </label>
+													  <label for="modlgn_username"> Porcentagem para o Centro de Apoio (%) somente o número: </label>
 													     
 													     <input id="percent" type="text" name="percent" class="inputbox" size="17" >
 													     
@@ -116,15 +129,19 @@ $(document).ready(function () {
             $artesao = $_POST['artesao'];
             $data_inicio = $_POST['data'];
             $data_termino = $_POST['data_termino'];
+            $porcentagem = $_POST['percent'];
+			
+			$valor_total = 0;
+			
 			
 			$resul =0;	  
 		
-		if(($produto == '') && ($artesao == '') && ($data_inicio == '') && $data_termino == ''){
+		if(($produto == '') && ($artesao == '') && ($data_inicio == '') && $data_termino == '' && ($porcentagem == '')){
 			
 			$venda = new venda();
 			
 			$resul = $venda->listall();
-				
+			$valor_total = NULL;	
 			
 		}
 		else{
@@ -132,8 +149,18 @@ $(document).ready(function () {
 			
 			$venda = new venda();
 			
-			$resul = $venda->listByFiltro($produto, $artesao, $data_inicio, $data_termino);
+			$resul = $venda->listByFiltro($produto, $artesao, $data_inicio, $data_termino, $porcentagem);
 			
+			
+			
+			while($row = $resul->fetch(PDO::FETCH_OBJ)){ 
+				
+				$valor_total = $valor_total + $row->valor_venda;
+				
+				
+			}
+			
+			$resul = $venda->listByFiltro($produto, $artesao, $data_inicio, $data_termino, $porcentagem);
 			
 		}
 		
@@ -142,13 +169,49 @@ $(document).ready(function () {
 		echo '<p> Nenhum resultado!! </p>';
 		     return;
 	    }
+	    
+	    
+	    if($porcentagem != ''){
+	     $valor_casa = (($valor_total*$porcentagem)/100);
+	     $valor_artesao = ($valor_total - $valor_casa);
+	     
+	     $valor_total= number_format($valor_total,2,",","");
+	     $valor_artesao= number_format($valor_artesao,2,",","");
+	     $valor_casa= number_format($valor_casa,2,",","");
+	    }
+	    else if($valor_total != null){ 
+			
+			
+			$valor_total= number_format($valor_total,2,",","");
+			$valor_casa = 0;
+			$valor_artesao = 0;
+			
+		}
+	    
+	    
+	    
+	    
 	     
 	     $count = $resul->rowCount();
 					              
 				     echo'   <div class="container">
 				             <div style=" position: relative; top: 50%; left: 40%; margin-top: -48px; margin-left: -100px;">
-				             <div class="col-md-4">
-     	                          <h3 class="m_2"> '.$count.' Vendas </h3>';
+				             <div class="col-md-7">
+     	                          <h3 class="m_2"> NÚMERO DE VENDAS: '.$count.'  </h3>';
+     	                         
+     	                        if($valor_total){
+											
+										echo  '<p > <font color="red"> TOTAL BRUTO: R$ '.$valor_total.' <br>
+											     TOTAL PARA ARTESÃO: R$ '.$valor_artesao.' <br>
+											     TOTAL PARA O CENTRO DE APOIO: R$ '.$valor_casa.' <br>
+											     
+											 </font></p>';
+											 
+										 }
+											
+										
+     	                          
+     	                     
      	                          
      	               $imagem = new imagem_produto();
      	                          

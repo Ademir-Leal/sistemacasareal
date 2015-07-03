@@ -158,11 +158,13 @@ $nova_venda = new venda();
     
     $produto->atualizar();
 
-echo '<p>Salvou</p>';
 
+
+echo " <br/> <br/> <div class=\"alert\">
+                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
+                       <strong>  VENDA REGISTRADA COM SUCESSO!! </strong> 
+                       </div><br>";
 return;
-
-
 
 }
 

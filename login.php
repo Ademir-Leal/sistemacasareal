@@ -148,9 +148,7 @@ return true;
 						      <input id="senha" type="password" name="senha" class="inputbox" size="18" autocomplete="off">
 						    </p>
 						    <div class="remember">
-							    <p id="login-form-remember">
-							      <label for="modlgn_remember"><a href="#"> Esqueceu sua senha ? </a></label>
-							   </p>
+
 							    <input type="submit" class="button" value="Login"><div class="clear"></div>
 							 </div>
 						  

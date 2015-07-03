@@ -115,6 +115,19 @@ class Artesao {
 		
 	}
 	
+	public function deletar(){
+		
+		$conexao = new conexao();
+		
+		$conexao->update("delete from imagens_artesao where id_artesao=$this->id_artesao");
+		
+		$conexao->update("delete from artesaos where id_artesao=$this->id_artesao");
+		
+		return true;
+		
+		
+	}
+	
 	
 	
 	
@@ -195,6 +208,16 @@ class user{
 		
 	}
 	
+	public function listByFiltro($nome,$cpf,$email){
+		
+		
+		$conexao = new conexao();
+		
+		return $conexao->consulta("select * from users where nome like '%$nome%' and cpf like '%$cpf%' and email like '%$email%'",'result');
+		
+		
+	}
+	
 	public function salvar_novo(){
     
          $conexao = new conexao();
@@ -213,6 +236,19 @@ class user{
 		$conexao->update("update users set cpf=$this->cpf, nome='$this->nome', email='$this->email', rua='$this->rua', 
 		            numero=$this->numero, bairro='$this->bairro', cidade='$this->cidade', uf='$this->uf', 
 		            perm='$this->perm', senha='$this->senha' where id_user=$this->id_user");
+		
+	}
+	
+	
+	public function deletar(){
+		
+		$conexao = new conexao();
+		
+		$conexao->update("delete from imagens_user where id_user=$this->id_user");
+		
+		$conexao->update("delete from users where id_user=$this->id_user");
+		
+		return true;
 		
 	}
 
@@ -410,7 +446,7 @@ public function trocar_imagem($nome_campo){
 
 public function getImage(){
 	
-   if($this->id_artesao == NULL) return false;
+   if($this->id_user == NULL) return false;
 
    $conexao = new conexao();
 
@@ -493,7 +529,7 @@ class produto{
 		$conexao = new conexao();
 		
 		
-		return $conexao->consulta("select * from produtos_artesao where nome like '%$artesao%' and descricao_produto like '%$descricao%' and qtd_estoque < $estoque",'result');
+		return $conexao->consulta("select * from produtos_artesao where nome like '%$artesao%' and descricao_produto like '%$descricao%' and qtd_estoque <= $estoque",'result');
 	   	
 	}
 	
@@ -519,11 +555,13 @@ class produto{
 		return true;
 		
 	}
-<<<<<<< HEAD
+
 	
 	public function deletar(){
 		
 		$conexao = new conexao();
+		
+		$conexao->update("delete from imagens_produto where id_produto=$this->id_produto");
 		
 		$conexao->update("delete from produtos where id_produto=$this->id_produto");
 		
@@ -531,16 +569,7 @@ class produto{
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-=======
->>>>>>> 05efc1d2a614136a6348bc41df74d67eec83c335
+
 }
 
 
@@ -696,6 +725,23 @@ class venda {
 			
 	}
 	
+	public function listById_artesao($id_artesao){
+		
+		$conexao = new conexao();
+		
+	    return $conexao->consulta("select * from vendas_produtos where id_artesao=$id_artesao order by data_venda DESC",'vetor');
+			
+	}
+	
+	public function listById_usuario($id_usuario){
+		
+		$conexao = new conexao();
+		
+	    return $conexao->consulta("select * from vendas_produtos where id_user=$id_usuario order by data_venda DESC",'vetor');
+			
+	}
+	
+
 	public function listByFiltro($produto,$artesao,$data_inicio,$data_termino){
 		
 

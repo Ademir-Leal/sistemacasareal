@@ -62,6 +62,60 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 								</ul>
 				              </div>
 				              
+<?php
+
+if(isset($_REQUEST['artesao_delete'])){
+	
+	$id_artesao = $_POST['artesao_delete'];
+	
+	$venda = new venda();
+	
+	$resultado = $venda->listById_artesao($id_artesao);
+	
+	if($resultado->rowCount() > 0 ) {
+		
+		
+		
+		echo ' 
+		             <br><br><br>
+                       <div class=\"alert\">
+                       <strong>  ARTESÃO NÃO PODE SER EXCLUÍDO, POIS, EXISTEM VENDAS RELACIONADAS A ESTE ARTESÃO !! </strong> 
+                       </div>
+                       <br>';
+                      
+		
+	}
+	else{
+		
+		$artesao = new artesao();
+		
+		$artesao->id_artesao = $id_artesao;
+		
+		$artesao->deletar();
+		
+		
+		echo ' <div class= container> 
+		        <div style=" position: relative; top: 50%; left: 35%; margin-top: -10px; margin-left: -100px;">
+		        <br><br><br><div class=\"alert\">
+                       
+                       <strong>  ARTESÃO EXCLUÍDO!! </strong> 
+                       </div><br>
+                       </div>
+                       </div>';
+                                   
+                       return;
+		
+		
+		
+	}
+                       
+                   
+}
+
+				          
+				          
+?>
+				          
 				              
 				              <div class="col-md-9">
 				                <div class="login-page">
@@ -169,11 +223,20 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 													<form name="'.$count.'" id="'.$count.'" action="editar_artesao.php" method="post"  >
 													 
 													 <input type="hidden" name="id_artesao" id="id_artesao" value="'.$rs->id_artesao.'" >
+													</form>
+													
+													 <form name="delete'.$count.'" id="delete'.$count.'" action="artesaos.php" method="post" >
+													 
+													<input type="hidden" name="artesao_delete" id="artesao_delete" value="'.$rs->id_artesao.'" >
+													
+													</form>
+													
+													
 													
 													<li><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();" ><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
 													
-													<li><a href="#"><i class="remove"> </i><br><span> Excluir </span></a></li>
-													</form>
+													<li><a href="#" OnClick=" if(confirm(\'TEM CERTEZA QUE DESEJA EXCLUIR O ARTES&Atilde;O ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  ><i class="remove"> </i><br><span> Excluir </span></a></li>
+													
 												</ul>
 												
 												<div class="clear"></div>
@@ -214,9 +277,15 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 													 <input type="hidden" name="id_artesao" id="id_artesao" value="'.$rs->id_artesao.'" >
 													</form>
 													
+													<form name="delete'.$count.'" id="delete'.$count.'" action="artesaos.php" method="post" >
+													 
+													<input type="hidden" name="artesao_delete" id="artesao_delete" value="'.$rs->id_artesao.'" >
+													
+													</form>
+													
 													<li><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();" ><i class="blog_icon2"> </i><br><span> Editar </span></a></li>
 													
-													<li><a href="#"><i class="remove"> </i><br><span> Excluir </span></a></li>
+													<li><a href="#" OnClick=" if(confirm(\'TEM CERTEZA QUE DESEJA EXCLUIR O ARTES&Atilde;O ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  ><i class="remove"> </i><br><span> Excluir </span></a></li>
 													
 												</ul>
 												
@@ -237,7 +306,11 @@ if(isset($_REQUEST['nome']) && (isset($_REQUEST['cpf'])) && (isset($_REQUEST['ci
 				
 				echo ' </div>
 				      </div>';
-			}
+} 
+			
+	
+			
+			
 ?>
 			          
 			
