@@ -11,7 +11,7 @@ unset($_SESSION['senha']);
 
 session_destroy();
 
-header("Location: erro.php");
+header("Location: login.php");
 
 }
 else{

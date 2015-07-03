@@ -76,6 +76,12 @@ $(document).ready(function () {
 													     
 													</p>
 													<p id="login-form-username">
+													  <label for="modlgn_username"> Porcentagem para o Centro de Apoio: </label>
+													     
+													     <input id="percent" type="text" name="percent" class="inputbox" size="17" >
+													     
+													</p>
+													<p id="login-form-username">
 													  <label for="modlgn_username"> Período da Venda (Início): </label>
 													      <input id="data" type="text" name="data" class="inputbox" size="17" >
 													      
