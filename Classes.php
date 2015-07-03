@@ -604,6 +604,17 @@ class produto{
 		
 	}
 	
+	public function deletar(){
+		
+		$conexao = new conexao();
+		
+		$conexao->update("delete from produtos where id_produto=$this->id_produto");
+		
+		return true;
+		
+		
+	}
+	
 	
 	
 	
@@ -755,6 +766,14 @@ class venda {
 		$conexao = new conexao();
 		
 	    return $conexao->consulta("select * from vendas_produtos order by data_venda DESC",'vetor');
+			
+	}
+	
+	public function listById_produto($id_produto){
+		
+		$conexao = new conexao();
+		
+	    return $conexao->consulta("select * from vendas_produtos where id_produto=$id_produto order by data_venda DESC",'vetor');
 			
 	}
 	

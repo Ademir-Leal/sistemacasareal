@@ -194,7 +194,7 @@ include "header.php";
 					     
 					     
 					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
-				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
+				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
 			            <div class="clear"></div>
 			         </ul>
 					</div>
@@ -238,7 +238,7 @@ include "header.php";
 					     
 					     
 					  	 <li class="btn5"><a href="#" OnClick="document.getElementById(\''.$count.'\').submit();"> Editar </a></li>	
-				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE REALMENTE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
+				         <li class="btn6"><a href="#" OnClick=" if(confirm(\' TEM CERTEZA QUE DESEJA EXCLUIR O PRODUTO ???\')) document.getElementById(\'delete'.$count.'\').submit(); else return false;"  > Excluir </a></li>
 			            <div class="clear"></div>
 					  	 
 			         </ul>
@@ -268,12 +268,54 @@ include "header.php";
 }
 else if(isset($_REQUEST['produto_delete'])){
 	
-	echo " <br/> <br/> <div class=\"alert\">
-                       <button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button>
-                       <strong>  PRODUTO EXCLUÍDO !! </strong> 
-                       </div><br>";
+	
+	$id_produto = $_POST['produto_delete'];
+	
+	$venda = new venda();
+	
+	$resultado = $venda->listById_produto($id_produto);
+	
+	if($resultado->rowCount() > 0 ) {
+		
+		
+		
+		echo ' <div class= container>
+		        <div style=" position: relative; top: 50%; left: 35%; margin-top: -10px; margin-left: -100px;">
+		             <br><br><br>
+                       <div class=\"alert\">
+                       <strong>  PRODUTO NÃO PODE SER EXCLUÍDO, POIS, EXISTEM VENDAS RELACIONADAS A ESTE PRODUTO !! </strong> 
+                       </div>
+                       <br>
+                       </div>
+                       </div>';
+                      
+		
+	}
+	else{
+		
+		$produto = new produto();
+		
+		$produto->id_produto = $id_produto;
+		
+		$produto->deletar();
+		
+		
+		echo ' <div class= container> 
+		        <div style=" position: relative; top: 50%; left: 35%; margin-top: -10px; margin-left: -100px;">
+		        <br><br><br><div class=\"alert\">
                        
+                       <strong>  PRODUTO EXCLUÍDO !! </strong> 
+                       </div><br>
+                       </div>
+                       </div>';
+                                   
                        return;
+		
+		
+		
+	}
+	
+	
 	   
 	
 	
