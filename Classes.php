@@ -80,7 +80,7 @@ class Artesao {
 		
 		$conexao = new conexao();
 		
-		return $conexao->consulta("select * from artesaos");
+		return $conexao->consulta("select * from artesaos","vetor");
 		
 	}
 	
